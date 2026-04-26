@@ -19,6 +19,7 @@ export default async function InmobiliariaLayout({ children }: { children: React
                 <NavLink href="/inmobiliaria">Panel</NavLink>
                 <NavLink href="/inmobiliaria/propiedades">Propiedades</NavLink>
                 <NavLink href="/inmobiliaria/transacciones">Transacciones</NavLink>
+                <NavLink href="/inmobiliaria/metricas">Métricas</NavLink>
               </>
             )}
           </div>
