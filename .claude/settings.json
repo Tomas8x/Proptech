@@ -1,0 +1,12 @@
+{
+  "enabledPlugins": {
+    "voltagent-data-ai@voltagent-subagents": true,
+    "voltagent-lang@voltagent-subagents": true,
+    "voltagent-core-dev@voltagent-subagents": true
+  },
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:dev.to)"
+    ]
+  }
+}
