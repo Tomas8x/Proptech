@@ -1,50 +1,37 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
-    CredentialsProvider({
-      credentials: {
-        email: { type: "email" },
-        password: { type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
-        });
-
-        if (!user) return null;
-
-        const valid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-
-        if (!valid) return null;
-
-        return { id: user.id, email: user.email, role: user.role };
-      },
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id as string;
-        token.role = user.role;
+    async jwt({ token, user }) {
+      if (user) token.id = user.id;
+      // Re-fetch role from DB until it's set (new users have role=null until /register/role)
+      if (token.id && token.role === undefined) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true },
+        });
+        token.role = dbUser?.role ?? null;
       }
       return token;
     },
     session({ session, token }) {
-      session.user.id = token.id;
-      session.user.role = token.role;
+      session.user.id = token.id as string;
+      session.user.role = token.role as string | null;
       return session;
     },
+  },
+  pages: {
+    signIn: "/login",
   },
 });

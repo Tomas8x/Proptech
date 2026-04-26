@@ -1,12 +1,9 @@
 import "dotenv/config";
 import { PrismaClient, GuaranteeType, PropertyType, PropertyStatus, PostulacionStatus, TransactionStage } from "../src/generated/prisma";
-import bcrypt from "bcryptjs";
 import * as XLSX from "xlsx";
 import path from "path";
 
 const prisma = new PrismaClient();
-
-const PASSWORD_HASH = bcrypt.hashSync("password123", 10);
 
 function verazRange(score: number) {
   if (score >= 850) return "Excelente";
@@ -60,7 +57,7 @@ async function main() {
   await prisma.user.create({
     data: {
       email: "admin@proptech.com",
-      passwordHash: PASSWORD_HASH,
+      name: "Admin",
       role: "ADMIN",
     },
   });
@@ -77,7 +74,7 @@ async function main() {
       prisma.user.create({
         data: {
           email: a.email,
-          passwordHash: PASSWORD_HASH,
+          name: a.companyName,
           role: "INMOBILIARIA",
           inmobiliariaProfile: {
             create: {
@@ -108,7 +105,7 @@ async function main() {
       prisma.user.create({
         data: {
           email: `dni${row.dni}@proptech.com`,
-          passwordHash: PASSWORD_HASH,
+          name: `${row.nombre} ${row.apellido}`,
           role: "INQUILINO",
           inquilinoProfile: {
             create: {

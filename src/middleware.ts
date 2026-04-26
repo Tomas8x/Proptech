@@ -21,9 +21,13 @@ export default auth((req) => {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isProtected && session) {
-    const role = session.user.role as string;
-    const home = ROLE_HOME[role];
+  // Signed in but no role yet — send to role selection
+  if (session && !session.user.role && pathname !== "/register/role") {
+    return NextResponse.redirect(new URL("/register/role", req.url));
+  }
+
+  if (isProtected && session?.user.role) {
+    const home = ROLE_HOME[session.user.role];
     if (home && !pathname.startsWith(home)) {
       return NextResponse.redirect(new URL(home, req.url));
     }
