@@ -1,0 +1,231 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  INQUILINO
+  INMOBILIARIA
+  ADMIN
+}
+
+enum GuaranteeType {
+  PROPIETARIO
+  FIANZA
+  SEGURO_CAUCION
+  NINGUNA
+}
+
+enum PropertyType {
+  DEPARTAMENTO
+  CASA
+  PH
+  LOCAL
+  OFICINA
+}
+
+enum PropertyStatus {
+  DISPONIBLE
+  RESERVADA
+  ALQUILADA
+  INACTIVA
+}
+
+enum PostulacionStatus {
+  PENDIENTE
+  EN_EVALUACION
+  APROBADA
+  RECHAZADA
+  RETIRADA
+}
+
+enum TransactionStage {
+  DOCUMENTACION
+  CONTRATO
+  ACTIVO
+  FINALIZADO
+}
+
+enum DocumentType {
+  DNI
+  INCOME
+}
+
+enum FlaggedDocumentStatus {
+  PENDING
+  RESOLVED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  inquilinoProfile    InquilinoProfile?
+  inmobiliariaProfile InmobiliariaProfile?
+  transactionDocuments TransactionDocument[]
+  transactionNotes     TransactionNote[]
+  transactionHistories TransactionHistory[]
+}
+
+model InquilinoProfile {
+  id            String        @id @default(cuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName     String
+  lastName      String
+  dni           String        @unique
+  phone         String?
+  monthlyIncome Decimal       @db.Decimal(12, 2)
+  guaranteeType GuaranteeType
+  dniImagePath  String?
+  incomeDocPath String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  verazScore       VerazScore?
+  confianzaScore   ConfianzaScore?
+  postulaciones    Postulacion[]
+  flaggedDocuments FlaggedDocument[]
+}
+
+model InmobiliariaProfile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String
+  cuit        String    @unique
+  phone       String?
+  isApproved  Boolean   @default(false)
+  approvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  properties Property[]
+}
+
+model Property {
+  id             String              @id @default(cuid())
+  inmobiliariaId String
+  inmobiliaria   InmobiliariaProfile @relation(fields: [inmobiliariaId], references: [id], onDelete: Cascade)
+  title          String
+  address        String
+  neighborhood   String?
+  city           String              @default("Buenos Aires")
+  price          Decimal             @db.Decimal(12, 2)
+  currency       String              @default("ARS")
+  bedrooms       Int
+  bathrooms      Int                 @default(1)
+  area           Decimal             @db.Decimal(8, 2)
+  propertyType   PropertyType
+  status         PropertyStatus      @default(DISPONIBLE)
+  description    String?
+  images         String[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  postulaciones Postulacion[]
+}
+
+model Postulacion {
+  id                       String            @id @default(cuid())
+  inquilinoId              String
+  inquilino                InquilinoProfile  @relation(fields: [inquilinoId], references: [id], onDelete: Cascade)
+  propertyId               String
+  property                 Property          @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  status                   PostulacionStatus @default(PENDIENTE)
+  compatibilityPct         Int?
+  compatibilityExplanation String?
+  notes                    String?
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+
+  transaction Transaction?
+
+  @@unique([inquilinoId, propertyId])
+}
+
+// Created when a Postulacion reaches APROBADA status. Owns the active rental lifecycle.
+model Transaction {
+  id            String           @id @default(cuid())
+  postulacionId String           @unique
+  postulacion   Postulacion      @relation(fields: [postulacionId], references: [id], onDelete: Cascade)
+  stage         TransactionStage @default(DOCUMENTACION)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  documents TransactionDocument[]
+  notes     TransactionNote[]
+  history   TransactionHistory[]
+}
+
+model TransactionDocument {
+  id            String           @id @default(cuid())
+  transactionId String
+  transaction   Transaction      @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  stage         TransactionStage
+  label         String
+  url           String
+  uploadedById  String
+  uploadedBy    User             @relation(fields: [uploadedById], references: [id])
+  uploadedAt    DateTime         @default(now())
+}
+
+model TransactionNote {
+  id            String           @id @default(cuid())
+  transactionId String
+  transaction   Transaction      @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  stage         TransactionStage?
+  body          String
+  authorId      String
+  author        User             @relation(fields: [authorId], references: [id])
+  createdAt     DateTime         @default(now())
+}
+
+model TransactionHistory {
+  id            String           @id @default(cuid())
+  transactionId String
+  transaction   Transaction      @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  fromStage     TransactionStage?
+  toStage       TransactionStage
+  changedById   String
+  changedBy     User             @relation(fields: [changedById], references: [id])
+  changedAt     DateTime         @default(now())
+}
+
+model VerazScore {
+  id          String           @id @default(cuid())
+  inquilinoId String           @unique
+  inquilino   InquilinoProfile @relation(fields: [inquilinoId], references: [id], onDelete: Cascade)
+  score       Int
+  range       String
+  checkedAt   DateTime         @default(now())
+}
+
+model ConfianzaScore {
+  id              String           @id @default(cuid())
+  inquilinoId     String           @unique
+  inquilino       InquilinoProfile @relation(fields: [inquilinoId], references: [id], onDelete: Cascade)
+  score           Int
+  dimensions      Json
+  improvementText String
+  calculatedAt    DateTime         @default(now())
+}
+
+model FlaggedDocument {
+  id           String                @id @default(cuid())
+  inquilinoId  String
+  inquilino    InquilinoProfile      @relation(fields: [inquilinoId], references: [id], onDelete: Cascade)
+  documentType DocumentType
+  reason       String
+  status       FlaggedDocumentStatus @default(PENDING)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+}
