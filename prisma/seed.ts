@@ -1,9 +1,11 @@
 import "dotenv/config";
 import { PrismaClient, GuaranteeType, PropertyType, PropertyStatus, PostulacionStatus, TransactionStage } from "../src/generated/prisma";
+import { PrismaPg } from "@prisma/adapter-pg";
 import * as XLSX from "xlsx";
 import path from "path";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const prisma = new PrismaClient({ adapter });
 
 function verazRange(score: number) {
   if (score >= 850) return "Excelente";
@@ -38,20 +40,18 @@ interface XlsxRow {
 }
 
 async function main() {
-  await prisma.$transaction([
-    prisma.transactionHistory.deleteMany(),
-    prisma.transactionNote.deleteMany(),
-    prisma.transactionDocument.deleteMany(),
-    prisma.transaction.deleteMany(),
-    prisma.postulacion.deleteMany(),
-    prisma.property.deleteMany(),
-    prisma.verazScore.deleteMany(),
-    prisma.confianzaScore.deleteMany(),
-    prisma.flaggedDocument.deleteMany(),
-    prisma.inquilinoProfile.deleteMany(),
-    prisma.inmobiliariaProfile.deleteMany(),
-    prisma.user.deleteMany(),
-  ]);
+  await prisma.transactionHistory.deleteMany();
+  await prisma.transactionNote.deleteMany();
+  await prisma.transactionDocument.deleteMany();
+  await prisma.transaction.deleteMany();
+  await prisma.postulacion.deleteMany();
+  await prisma.property.deleteMany();
+  await prisma.verazScore.deleteMany();
+  await prisma.confianzaScore.deleteMany();
+  await prisma.flaggedDocument.deleteMany();
+  await prisma.inquilinoProfile.deleteMany();
+  await prisma.inmobiliariaProfile.deleteMany();
+  await prisma.user.deleteMany();
 
   // ── Admin ────────────────────────────────────────────────────────────────
   await prisma.user.create({
