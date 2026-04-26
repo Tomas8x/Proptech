@@ -39,7 +39,7 @@
 - [x] Transaction board UI with state transitions (/inmobiliaria/transacciones + /[id])
 - [x] Document attachment per state + internal notes (inmobiliaria-only, not visible to client)
 - [x] Shared portal: tokenized link at /portal/[portalToken], no account needed
-- [ ] Email notifications on each milestone
+- [x] Email notifications on each milestone (Resend, fire-and-forget from advanceStage)
 - [x] **[UX]** UX/UI pass — transaction board: state machine stepper, document attachments, shared portal view
 
 ### Phase 4 — M4 Inteligencia Artificial
@@ -48,8 +48,8 @@
 - [x] AI candidate summary (lib/ai/candidates.ts) — paragraph in Spanish
 
 ### Phase 5 — M5 Dashboards + Admin + Production-readiness
-- [ ] Inmobiliaria metrics dashboard (/inmobiliaria/metrics): active properties, ongoing transactions, avg closing time, candidates per property
-- [ ] Admin platform view (/admin): registered agencies (approve/reject), active tenants, global transactions, flagged docs queue
+- [x] Inmobiliaria metrics dashboard (/inmobiliaria/metricas): active properties, ongoing transactions, avg closing time, candidates per property
+- [x] Admin platform view (/admin): registered agencies (approve/reject), active tenants, global transactions, flagged docs queue
 - [ ] Production DB separated from local (Supabase prod instance, migrations applied, demo seed loaded)
 - [ ] GitHub Actions: lint + build on PRs, deploy to Vercel on main
 - [x] loading.tsx + error.tsx per role section + not-found.tsx (skeleton UIs, error boundaries)
