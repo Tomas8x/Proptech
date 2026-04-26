@@ -1,19 +1,22 @@
 # PropTech — Project Plan
 
+> **Keep this plan updated after every completed task.**
+
 ## Phases
 
 ### Phase 0 — Foundation (blocks everything)
 - [x] Prisma schema: User, InquilinoProfile, InmobiliariaProfile, Property, Postulacion, Transaction (+ TransactionDocument, TransactionNote, TransactionHistory)
 - [x] Next.js 16 scaffold with TypeScript, Tailwind, App Router
-- [x] NextAuth email/password, role stored in JWT (INQUILINO | INMOBILIARIA | ADMIN)
-- [ ] Middleware: unauthenticated → /login, role mismatch → role home
-- [ ] DAL (lib/dal.ts): verifySession() with React cache()
-- [ ] Seed script from Assets/Usuarios.xlsx (3 agencies, 20 tenants, 10 properties, 15 applications)
-- [ ] Docker Compose: app + postgres
+- [x] NextAuth v5 with Google OAuth, role stored in JWT (INQUILINO | INMOBILIARIA | ADMIN)
+- [x] OAuth migration (prisma/migrations/20260426000001_oauth_refactor)
+- [x] /register/role page + server action for post-signup role selection
+- [x] Middleware: unauthenticated → /login, no-role → /register/role, role mismatch → role home
+- [x] DAL (src/lib/dal.ts): verifySession() + verifyRole() with React cache()
+- [x] Seed script from Assets/Usuarios.xlsx (3 agencies, 20 tenants, 10 properties, 15 applications)
+- [x] Docker Compose + Dockerfile: app + postgres
 - [x] .env.example
 
 ### Phase 1 — M1 Pasaporte Inquilino
-- [ ] Register/login (email/password)
 - [ ] Tenant profile form (DNI, tipo de perfil: relación de dependencia / monotributista / autónomo / jubilado, lifestyle: mascotas, fumador, composición familiar)
 - [ ] Document upload: DNI image + income PDF → Supabase Storage
 - [ ] Veraz mock: match DNI against seed data, return score 500–999
