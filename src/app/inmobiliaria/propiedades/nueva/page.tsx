@@ -2,6 +2,7 @@ import { verifyRole } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { createProperty } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const PROPERTY_TYPES = [
   { value: "DEPARTAMENTO", label: "Departamento" },
@@ -161,9 +162,9 @@ export default async function NuevaPage() {
           </div>
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+        <SubmitButton pendingText="Publicando..." className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
           Publicar propiedad
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

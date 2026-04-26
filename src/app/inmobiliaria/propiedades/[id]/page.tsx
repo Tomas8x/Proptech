@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { computeCandidateSummary } from "@/lib/ai/candidateSummary";
 import { updatePostulacionStatus, updatePropertyStatus } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const GUARANTEE_LABELS: Record<string, string> = {
   PROPIETARIO: "Prop. propietaria",
@@ -176,7 +177,7 @@ export default async function PropertyDetailPage({
             <select name="status" defaultValue={property.status} onChange={undefined} className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
               {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
             </select>
-            <button type="submit" className="ml-2 text-xs text-blue-600 hover:underline">Actualizar estado</button>
+            <SubmitButton pendingText="Actualizando..." className="ml-2 text-xs text-blue-600 hover:underline">Actualizar estado</SubmitButton>
           </form>
         </div>
       </div>
@@ -279,7 +280,7 @@ export default async function PropertyDetailPage({
                         <select name="status" defaultValue={c.status} className="border border-gray-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
                           {POSTULACION_STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
                         </select>
-                        <button type="submit" className="ml-1 text-xs text-blue-600 hover:underline">OK</button>
+                        <SubmitButton pendingText="..." className="ml-1 text-xs text-blue-600 hover:underline">OK</SubmitButton>
                       </form>
                     </div>
                   )}

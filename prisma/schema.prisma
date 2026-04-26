@@ -241,6 +241,7 @@ model Transaction {
   postulacionId String           @unique
   postulacion   Postulacion      @relation(fields: [postulacionId], references: [id], onDelete: Cascade)
   stage         TransactionStage @default(DOCUMENTACION)
+  portalToken   String           @unique @default(cuid())
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
 

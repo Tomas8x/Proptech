@@ -2,6 +2,7 @@ import { verifySession } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { postulate } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const STATUS_LABELS: Record<string, string> = {
   PENDIENTE: "Postulación enviada",
@@ -91,9 +92,9 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           </div>
         ) : canApply ? (
           <form action={postulate.bind(null, id)}>
-            <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+            <SubmitButton pendingText="Enviando postulación..." className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
               Postularme a esta propiedad
-            </button>
+            </SubmitButton>
           </form>
         ) : (
           <div>

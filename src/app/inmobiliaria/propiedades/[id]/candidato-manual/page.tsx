@@ -2,6 +2,7 @@ import { verifyRole } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import { addManualCandidate } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const GUARANTEE_TYPES = [
   { value: "PROPIETARIO", label: "Garantía propietaria" },
@@ -109,9 +110,9 @@ export default async function CandidatoManualPage({ params }: { params: Promise<
           <textarea name="notes" rows={3} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+        <SubmitButton pendingText="Calculando compatibilidad..." className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
           Guardar y calcular compatibilidad
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import { verifyRole } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { NavLink } from "@/components/NavLink";
+import { SubmitButton } from "@/components/SubmitButton";
 import { signOut } from "@/auth";
 
 export default async function InmobiliariaLayout({ children }: { children: React.ReactNode }) {
@@ -17,13 +18,14 @@ export default async function InmobiliariaLayout({ children }: { children: React
               <>
                 <NavLink href="/inmobiliaria">Panel</NavLink>
                 <NavLink href="/inmobiliaria/propiedades">Propiedades</NavLink>
+                <NavLink href="/inmobiliaria/transacciones">Transacciones</NavLink>
               </>
             )}
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-400 hidden sm:block">{profile?.companyName ?? user.email}</span>
             <form action={async () => { "use server"; await signOut({ redirectTo: "/login" }); }}>
-              <button className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Salir</button>
+              <SubmitButton className="text-sm text-gray-500 hover:text-gray-900 transition-colors" pendingText="Saliendo...">Salir</SubmitButton>
             </form>
           </div>
         </div>

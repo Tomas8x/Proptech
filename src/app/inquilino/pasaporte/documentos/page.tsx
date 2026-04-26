@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { uploadDocuments } from "./actions";
 import { PasaporteStepper } from "@/components/PasaporteStepper";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default async function DocumentosPage() {
   const user = await verifySession();
@@ -52,9 +53,9 @@ export default async function DocumentosPage() {
           Tus documentos se almacenan de forma segura y solo son visibles para las inmobiliarias a las que te postuled.
         </p>
 
-        <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+        <SubmitButton pendingText="Subiendo..." className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
           Subir documentos →
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

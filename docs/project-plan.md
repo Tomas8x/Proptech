@@ -35,10 +35,10 @@
 - [x] **[UX]** UX/UI pass — inmobiliaria flows: dashboard home, property list, property detail, candidate ranking
 
 ### Phase 3 — M3 Tablero de Transacción
-- [ ] Transaction state machine (config/transaction.ts): DOCUMENTACION → CONTRATO → ACTIVO → FINALIZADO
-- [ ] Transaction board UI with state transitions
-- [ ] Document attachment per state + internal notes (inmobiliaria-only, not visible to client)
-- [ ] Shared portal: tokenized link sent to both inquilino and propietario, no account needed
+- [x] Transaction state machine (config/transaction.ts): DOCUMENTACION → CONTRATO → ACTIVO → FINALIZADO
+- [x] Transaction board UI with state transitions (/inmobiliaria/transacciones + /[id])
+- [x] Document attachment per state + internal notes (inmobiliaria-only, not visible to client)
+- [x] Shared portal: tokenized link at /portal/[portalToken], no account needed
 - [ ] Email notifications on each milestone
 - [ ] **[UX]** UX/UI pass — transaction board: state machine stepper, document attachments, shared portal view
 

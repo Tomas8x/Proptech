@@ -1,5 +1,6 @@
 import { verifyRole } from "@/lib/dal";
 import { NavLink } from "@/components/NavLink";
+import { SubmitButton } from "@/components/SubmitButton";
 import { signOut } from "@/auth";
 
 export default async function InquilinoLayout({ children }: { children: React.ReactNode }) {
@@ -19,7 +20,7 @@ export default async function InquilinoLayout({ children }: { children: React.Re
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-400 hidden sm:block">{user.email}</span>
             <form action={async () => { "use server"; await signOut({ redirectTo: "/login" }); }}>
-              <button className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Salir</button>
+              <SubmitButton className="text-sm text-gray-500 hover:text-gray-900 transition-colors" pendingText="Saliendo...">Salir</SubmitButton>
             </form>
           </div>
         </div>

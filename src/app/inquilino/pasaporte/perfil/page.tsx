@@ -2,6 +2,7 @@ import { verifySession } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { saveProfile } from "./actions";
 import { PasaporteStepper } from "@/components/PasaporteStepper";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const PROFILE_TYPES = [
   { value: "RELACION_DEPENDENCIA", label: "Relación de dependencia" },
@@ -96,9 +97,9 @@ export default async function PerfilPage() {
           <input name="familySize" type="number" defaultValue={profile?.familySize?.toString() ?? "1"} min="1" max="10" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+        <SubmitButton className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
           Guardar y continuar →
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

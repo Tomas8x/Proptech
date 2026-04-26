@@ -2,6 +2,7 @@ import { verifyRole } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { saveOnboarding } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default async function OnboardingPage() {
   const user = await verifyRole("INMOBILIARIA");
@@ -31,9 +32,9 @@ export default async function OnboardingPage() {
           <input name="phone" placeholder="+54 11 1234-5678" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
+        <SubmitButton className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
           Guardar y continuar →
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );
