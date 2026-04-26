@@ -33,33 +33,33 @@ export default async function PerfilPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-            <input name="firstName" defaultValue={profile?.firstName ?? ""} required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input name="firstName" defaultValue={profile?.firstName ?? ""} required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-            <input name="lastName" defaultValue={profile?.lastName ?? ""} required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input name="lastName" defaultValue={profile?.lastName ?? ""} required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">DNI</label>
-            <input name="dni" defaultValue={profile?.dni ?? ""} required placeholder="12345678" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input name="dni" defaultValue={profile?.dni ?? ""} required placeholder="12345678" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <input name="phone" defaultValue={profile?.phone ?? ""} placeholder="+54 11 1234-5678" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input name="phone" defaultValue={profile?.phone ?? ""} placeholder="+54 11 1234-5678" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Ingresos mensuales (ARS)</label>
-          <input name="monthlyIncome" type="number" defaultValue={profile?.monthlyIncome?.toString() ?? ""} required min="0" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input name="monthlyIncome" type="number" defaultValue={profile?.monthlyIncome?.toString() ?? ""} required min="0" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de perfil laboral</label>
-          <select name="profileType" defaultValue={profile?.profileType ?? ""} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <select name="profileType" defaultValue={profile?.profileType ?? ""} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="">Seleccionar...</option>
             {PROFILE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
@@ -93,7 +93,7 @@ export default async function PerfilPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad de convivientes (incluido vos)</label>
-          <input name="familySize" type="number" defaultValue={profile?.familySize?.toString() ?? "1"} min="1" max="10" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input name="familySize" type="number" defaultValue={profile?.familySize?.toString() ?? "1"} min="1" max="10" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-blue-700 transition-colors">
