@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { TRANSACTION_STAGES } from "@/config/transaction";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
+import { sendStageAdvanceEmail } from "@/lib/email/notifications";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -28,12 +29,37 @@ export async function advanceStage(transactionId: string) {
   const next = TRANSACTION_STAGES[tx.stage].next;
   if (!next) return;
 
-  await prisma.$transaction([
-    prisma.transaction.update({ where: { id: transactionId }, data: { stage: next } }),
-    prisma.transactionHistory.create({
-      data: { transactionId, fromStage: tx.stage, toStage: next, changedById: user.id },
+  const [, txFull] = await Promise.all([
+    prisma.$transaction([
+      prisma.transaction.update({ where: { id: transactionId }, data: { stage: next } }),
+      prisma.transactionHistory.create({
+        data: { transactionId, fromStage: tx.stage, toStage: next, changedById: user.id },
+      }),
+    ]),
+    prisma.transaction.findUnique({
+      where: { id: transactionId },
+      include: {
+        postulacion: {
+          include: {
+            inquilino: { include: { user: true } },
+            property: { include: { inmobiliaria: true } },
+          },
+        },
+      },
     }),
   ]);
+
+  if (txFull) {
+    void sendStageAdvanceEmail({
+      toEmail: txFull.postulacion.inquilino.user.email!,
+      tenantName: `${txFull.postulacion.inquilino.firstName} ${txFull.postulacion.inquilino.lastName}`,
+      propertyTitle: txFull.postulacion.property.title,
+      propertyAddress: txFull.postulacion.property.address,
+      agencyName: txFull.postulacion.property.inmobiliaria.companyName,
+      newStage: next,
+      portalToken: txFull.portalToken,
+    });
+  }
 
   revalidatePath(`/inmobiliaria/transacciones/${transactionId}`);
   revalidatePath("/inmobiliaria/transacciones");
