@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { sendStageAdvanceEmail } from "@/lib/email/notifications";
 
-const supabase = createClient(
+const getSupabase = () => createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
@@ -86,13 +86,13 @@ export async function uploadTransactionDoc(transactionId: string, formData: Form
   const key = `transactions/${transactionId}/${Date.now()}.${ext}`;
   const bytes = await file.arrayBuffer();
 
-  const { error } = await supabase.storage
+  const { error } = await getSupabase().storage
     .from("documents")
     .upload(key, bytes, { upsert: false, contentType: file.type });
 
   if (error) throw new Error(error.message);
 
-  const { data: urlData } = supabase.storage.from("documents").getPublicUrl(key);
+  const { data: urlData } = getSupabase().storage.from("documents").getPublicUrl(key);
 
   await prisma.transactionDocument.create({
     data: { transactionId, stage: tx.stage, label, url: urlData.publicUrl, uploadedById: user.id },
