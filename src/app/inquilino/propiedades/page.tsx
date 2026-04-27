@@ -74,7 +74,7 @@ export default async function PropiedadesPage() {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {sorted.map((prop) => (
-          <Link key={prop.id} href={`/inquilino/propiedades/${prop.id}`} className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 transition-colors block">
+          <Link key={prop.id} href={`/inquilino/propiedades/${prop.id}`} className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 block">
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -95,10 +95,10 @@ export default async function PropiedadesPage() {
                 )}
               </div>
               {prop.compatibilityPct != null && (
-                <div className={`flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold ${
-                  prop.compatibilityPct >= 75 ? "bg-green-100 text-green-700" :
-                  prop.compatibilityPct >= 50 ? "bg-yellow-100 text-yellow-700" :
-                  "bg-red-100 text-red-700"
+                <div className={`flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-base font-extrabold ring-2 ring-offset-1 ${
+                  prop.compatibilityPct >= 75 ? "bg-green-100 text-green-700 ring-green-200" :
+                  prop.compatibilityPct >= 50 ? "bg-yellow-100 text-yellow-700 ring-yellow-200" :
+                  "bg-red-100 text-red-700 ring-red-200"
                 }`}>
                   {prop.compatibilityPct}%
                 </div>

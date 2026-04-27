@@ -56,5 +56,34 @@
 - [x] **[UX]** UX/UI pass — root/login/register pages (login page created, landing page, responsive nav)
 - [ ] README: setup steps, architecture + stack decisions, AI features (prompts + scoring logic), CI/CD description, "¿Qué harían con un día más?" (5 honest prioritized items)
 
+### Phase 6 — UI Polish (cards, hover effects, visual consistency)
+
+#### 6.1 — Cards navegables: hover lift uniforme
+- [x] `src/app/inquilino/propiedades/page.tsx` — card wrapper: añadir `hover:shadow-md hover:-translate-y-0.5 transition-all duration-200` (reemplaza `transition-colors`)
+- [x] `src/app/inmobiliaria/propiedades/page.tsx` — card wrapper: añadir `hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200` (reemplaza `transition-colors`)
+- [x] `src/app/inquilino/page.tsx` — cards de acción (Ver propiedades / Mis postulaciones): añadir `hover:-translate-y-0.5 hover:shadow-md hover:bg-blue-50/20 transition-all duration-200`
+
+#### 6.2 — Cards de datos: hover sutil (sin lift, no son links)
+- [x] `src/app/inquilino/postulaciones/page.tsx` — card wrapper `div`: añadir `hover:border-gray-300 hover:shadow-sm transition-all duration-150`
+- [x] `src/app/inmobiliaria/page.tsx` — stats cards: añadir `hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150`
+- [x] `src/app/admin/page.tsx` — stats cards: mismo patrón que inmobiliaria dashboard
+- [x] `src/app/page.tsx` — feature cards (sección de features, no clickeables): añadir `hover:shadow-sm hover:border-gray-300 transition-all duration-200`
+
+#### 6.3 — Badge de compatibilidad IA
+- [x] `src/app/inquilino/propiedades/page.tsx` — círculo de compatibilidad: cambiar `text-sm font-bold` → `text-base font-extrabold`; añadir `ring-2 ring-offset-1` con color matching al estado (verde/amarillo/rojo)
+
+#### 6.4 — Badges de estado: consistencia tipográfica
+- [x] `src/app/inquilino/postulaciones/page.tsx` — badges de estado: asegurar `text-xs font-medium px-2.5 py-0.5 rounded-full` en todos
+- [x] `src/app/inmobiliaria/propiedades/page.tsx` — badges de estado de propiedad: mismo patrón (`px-2.5` en lugar de `px-2`, añadir `font-medium` si falta)
+- [x] `src/app/inmobiliaria/page.tsx` — badges: revisión y homologación del patrón
+
+#### 6.5 — CTA y botones principales
+- [x] `src/app/page.tsx` — botón "Empezar gratis": `font-medium` → `font-semibold`; añadir `hover:shadow-lg hover:-translate-y-px transition-all duration-200`
+- [x] `src/app/register/role/page.tsx` — cards de selección de rol: añadir `active:scale-95 cursor-pointer transition-all duration-200`
+
+#### 6.6 — Detalles finos
+- [x] `src/components/PasaporteStepper.tsx` — línea conectora: `h-px` → `h-0.5`; añadir `rounded-full transition-colors duration-300`; `w-10` → `w-12`
+- [x] `src/app/inmobiliaria/transacciones/page.tsx` — columnas vacías del kanban: añadir `bg-gray-50/50` al contenedor con `border-dashed`
+
 ## Out of scope
 Payments, digital signature, real DNI API, push notifications, native mobile, demo video.

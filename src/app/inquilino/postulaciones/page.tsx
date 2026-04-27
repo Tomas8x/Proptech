@@ -61,7 +61,7 @@ export default async function PostulacionesPage() {
       ) : (
         <div className="space-y-3">
           {postulaciones.map((p) => (
-            <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-5">
+            <div key={p.id} className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-sm transition-all duration-150">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <Link href={`/inquilino/propiedades/${p.propertyId}`} className="font-medium text-gray-900 hover:text-blue-600">
@@ -78,7 +78,7 @@ export default async function PostulacionesPage() {
                   )}
                 </div>
                 <div className="flex-shrink-0 text-right">
-                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-600"}`}>
+                  <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-600"}`}>
                     {STATUS_LABELS[p.status] ?? p.status}
                   </span>
                   {p.compatibilityPct != null && (

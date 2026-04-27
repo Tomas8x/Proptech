@@ -32,7 +32,7 @@ export default async function AdminHome() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Link href="/admin/agencias" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+        <Link href="/admin/agencias" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Agencias</div>
           <div className="text-3xl font-bold text-gray-900">{agencyTotal}</div>
           {agencyPending > 0 && (
@@ -41,19 +41,19 @@ export default async function AdminHome() {
           {agencyPending === 0 && <div className="text-xs text-gray-400 mt-0.5">todas aprobadas</div>}
         </Link>
 
-        <Link href="/admin/inquilinos" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+        <Link href="/admin/inquilinos" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Inquilinos</div>
           <div className="text-3xl font-bold text-gray-900">{tenantTotal}</div>
           <div className="text-xs text-gray-400 mt-0.5">registrados</div>
         </Link>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Transacciones</div>
           <div className="text-3xl font-bold text-gray-900">{transactionTotal}</div>
           <div className="text-xs text-gray-400 mt-0.5">{stageMap["ACTIVO"] ?? 0} activas</div>
         </div>
 
-        <Link href="/admin/documentos" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+        <Link href="/admin/documentos" className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Docs flaggeados</div>
           <div className={`text-3xl font-bold ${flaggedPending > 0 ? "text-red-500" : "text-gray-900"}`}>{flaggedPending}</div>
           <div className="text-xs text-gray-400 mt-0.5">pendientes de revisión</div>

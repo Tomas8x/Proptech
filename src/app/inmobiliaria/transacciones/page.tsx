@@ -87,7 +87,7 @@ export default async function TransaccionesPage() {
               ))}
 
               {items.length === 0 && (
-                <div className="rounded-xl border border-dashed border-gray-200 p-5 text-center">
+                <div className="rounded-xl border border-dashed border-gray-200 p-5 text-center bg-gray-50/50">
                   <p className="text-xs text-gray-300">Sin transacciones</p>
                 </div>
               )}

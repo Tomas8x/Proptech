@@ -47,27 +47,27 @@ export default async function Home() {
           </p>
           <Link
             href="/login"
-            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors text-sm"
+            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 hover:shadow-lg hover:-translate-y-px transition-all duration-200 text-sm"
           >
             Empezar gratis →
           </Link>
 
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm hover:border-gray-300 transition-all duration-200">
               <div className="text-xl mb-3">📋</div>
               <h3 className="font-semibold text-gray-900 mb-1 text-sm">Pasaporte Inquilino</h3>
               <p className="text-sm text-gray-500">
                 Armá tu perfil con DNI, ingresos y score Veraz. Postulate con un solo clic.
               </p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm hover:border-gray-300 transition-all duration-200">
               <div className="text-xl mb-3">🤖</div>
               <h3 className="font-semibold text-gray-900 mb-1 text-sm">Score de Confianza IA</h3>
               <p className="text-sm text-gray-500">
                 Nuestro motor analiza tus documentos y calcula tu compatibilidad con cada propiedad.
               </p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm hover:border-gray-300 transition-all duration-200">
               <div className="text-xl mb-3">🏢</div>
               <h3 className="font-semibold text-gray-900 mb-1 text-sm">Panel Inmobiliaria</h3>
               <p className="text-sm text-gray-500">
