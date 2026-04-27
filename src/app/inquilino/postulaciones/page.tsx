@@ -55,7 +55,7 @@ export default async function PostulacionesPage() {
       <h1 className="text-xl font-semibold text-gray-900 mb-6">Mis Postulaciones</h1>
       {postulaciones.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-400 text-sm mb-3">Todavía no te postulaste a ninguna propiedad.</p>
+          <p className="text-gray-500 text-sm mb-3">Todavía no te postulaste a ninguna propiedad.</p>
           <Link href="/inquilino/propiedades" className="text-blue-600 text-sm hover:underline">Ver propiedades disponibles</Link>
         </div>
       ) : (
@@ -68,7 +68,7 @@ export default async function PostulacionesPage() {
                     {p.property.title}
                   </Link>
                   <p className="text-sm text-gray-500">{p.property.address}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{p.property.inmobiliaria.companyName}</p>
+                  <p className="text-xs text-gray-600 mt-0.5">{p.property.inmobiliaria.companyName}</p>
                   {p.transaction && (
                     <div className="mt-2">
                       <span className="text-xs text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
@@ -82,7 +82,7 @@ export default async function PostulacionesPage() {
                     {STATUS_LABELS[p.status] ?? p.status}
                   </span>
                   {p.compatibilityPct != null && (
-                    <div className="text-xs text-gray-400 mt-1">{p.compatibilityPct}% compatibilidad</div>
+                    <div className="text-xs text-gray-600 mt-1">{p.compatibilityPct}% compatibilidad</div>
                   )}
                   <div className="text-xs text-gray-300 mt-1">{new Date(p.createdAt).toLocaleDateString("es-AR")}</div>
                 </div>

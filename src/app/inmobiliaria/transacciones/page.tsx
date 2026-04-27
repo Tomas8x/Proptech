@@ -42,13 +42,13 @@ export default async function TransaccionesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-gray-900">Tablero de transacciones</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{active} activa{active !== 1 ? "s" : ""} · {transactions.length} total</p>
+          <p className="text-sm text-gray-500 mt-0.5">{active} activa{active !== 1 ? "s" : ""} · {transactions.length} total</p>
         </div>
       </div>
 
       {transactions.length === 0 ? (
         <div className="bg-white rounded-xl border border-dashed border-gray-200 p-16 text-center">
-          <p className="text-gray-400 text-sm">No hay transacciones aún.</p>
+          <p className="text-gray-500 text-sm">No hay transacciones aún.</p>
           <p className="text-gray-300 text-xs mt-1">Aprobá una postulación desde el detalle de una propiedad para iniciar una.</p>
         </div>
       ) : (
@@ -59,7 +59,7 @@ export default async function TransaccionesPage() {
               <div className="flex items-center gap-2 px-1 mb-3">
                 <span className={`w-2 h-2 rounded-full shrink-0 ${STAGE_DOT[stage]}`} />
                 <span className="text-xs font-semibold text-gray-700 uppercase tracking-wide">{config.label}</span>
-                <span className="ml-auto text-xs text-gray-400 font-medium">{items.length}</span>
+                <span className="ml-auto text-xs text-gray-600 font-medium">{items.length}</span>
               </div>
 
               {/* Cards */}
@@ -76,7 +76,7 @@ export default async function TransaccionesPage() {
                     {t.postulacion.inquilino.firstName} {t.postulacion.inquilino.lastName}
                   </p>
                   <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-600">
                       {t.postulacion.property.currency} {Number(t.postulacion.property.price).toLocaleString("es-AR")}
                     </span>
                     <span className="text-xs text-gray-300">

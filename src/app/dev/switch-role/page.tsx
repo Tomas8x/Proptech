@@ -61,7 +61,7 @@ export default async function SwitchRolePage() {
           ))}
         </div>
 
-        <p className="text-xs text-gray-400 text-center">
+        <p className="text-xs text-gray-600 text-center">
           Cambia el rol en la DB y cierra la sesión para que el JWT se actualice.
         </p>
       </div>

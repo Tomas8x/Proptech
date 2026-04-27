@@ -37,7 +37,7 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
       <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
           <span className="font-bold text-gray-900">PropTech</span>
-          <span className="text-xs text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">Portal de seguimiento</span>
+          <span className="text-xs text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full">Portal de seguimiento</span>
         </div>
       </header>
 
@@ -48,7 +48,7 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
           <div className="p-5">
             <div className="flex items-start justify-between gap-4 mb-5">
               <div>
-                <p className="text-xs text-gray-400 mb-0.5">{property.inmobiliaria.companyName}</p>
+                <p className="text-xs text-gray-600 mb-0.5">{property.inmobiliaria.companyName}</p>
                 <h1 className="text-lg font-semibold text-gray-900">{property.title}</h1>
                 <p className="text-sm text-gray-500">{property.address}</p>
               </div>
@@ -93,7 +93,7 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
 
         {/* Tenant */}
         <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Inquilino</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Inquilino</h2>
           <p className="text-sm font-medium text-gray-900">{inquilino.firstName} {inquilino.lastName}</p>
         </div>
 
@@ -101,7 +101,7 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
         {docsByStage.length > 0 && (
           <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
             <div className="px-5 py-4">
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Documentos adjuntos</h2>
+              <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Documentos adjuntos</h2>
             </div>
             {docsByStage.map(({ stage, config, docs }) => (
               <div key={stage} className="px-5 py-4 space-y-2">
@@ -127,7 +127,7 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
         {/* History timeline */}
         {tx.history.length > 0 && (
           <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Historial</h2>
+            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Historial</h2>
             <div className="relative pl-4">
               <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-100" />
               <div className="space-y-4">
@@ -137,11 +137,11 @@ export default async function SharedPortalPage({ params }: { params: Promise<{ t
                     <div>
                       <p className="text-sm text-gray-700">
                         {h.fromStage
-                          ? <>{TRANSACTION_STAGES[h.fromStage].label} <span className="text-gray-400">→</span> {TRANSACTION_STAGES[h.toStage].label}</>
+                          ? <>{TRANSACTION_STAGES[h.fromStage].label} <span className="text-gray-500">→</span> {TRANSACTION_STAGES[h.toStage].label}</>
                           : <>Iniciada en <strong>{TRANSACTION_STAGES[h.toStage].label}</strong></>
                         }
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-gray-600 mt-0.5">
                         {new Date(h.changedAt).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}
                       </p>
                     </div>

@@ -81,7 +81,7 @@ export default async function PropiedadesPage() {
                   <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
                     {PROPERTY_TYPE_LABELS[prop.propertyType] ?? prop.propertyType}
                   </span>
-                  {prop.neighborhood && <span className="text-xs text-gray-400">{prop.neighborhood}</span>}
+                  {prop.neighborhood && <span className="text-xs text-gray-600">{prop.neighborhood}</span>}
                 </div>
                 <h2 className="font-medium text-gray-900 truncate">{prop.title}</h2>
                 <p className="text-sm text-gray-500 mt-0.5 truncate">{prop.address}</p>

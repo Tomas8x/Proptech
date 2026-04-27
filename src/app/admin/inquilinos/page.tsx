@@ -32,11 +32,11 @@ export default async function InquilinosPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Inquilinos</h1>
-        <p className="text-sm text-gray-400 mt-0.5">{inquilinos.length} registrados</p>
+        <p className="text-sm text-gray-500 mt-0.5">{inquilinos.length} registrados</p>
       </div>
 
       {inquilinos.length === 0 ? (
-        <p className="text-sm text-gray-400">No hay inquilinos registrados.</p>
+        <p className="text-sm text-gray-500">No hay inquilinos registrados.</p>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <table className="w-full text-sm">
@@ -55,7 +55,7 @@ export default async function InquilinosPage() {
                 <tr key={i.id} className={idx !== inquilinos.length - 1 ? "border-b border-gray-50" : ""}>
                   <td className="px-4 py-3">
                     <p className="font-medium text-gray-900">{i.firstName} {i.lastName}</p>
-                    <p className="text-xs text-gray-400">{i.user.email}</p>
+                    <p className="text-xs text-gray-600">{i.user.email}</p>
                   </td>
                   <td className="px-4 py-3 text-xs text-gray-500">{i.profileType ? PROFILE_LABELS[i.profileType] ?? i.profileType : "—"}</td>
                   <td className="px-4 py-3 text-center">
@@ -73,7 +73,7 @@ export default async function InquilinosPage() {
                     ) : <span className="text-xs text-gray-300">—</span>}
                   </td>
                   <td className="px-4 py-3 text-center text-gray-700 font-medium">{i._count.postulaciones}</td>
-                  <td className="px-4 py-3 text-xs text-gray-400">{new Date(i.createdAt).toLocaleDateString("es-AR")}</td>
+                  <td className="px-4 py-3 text-xs text-gray-600">{new Date(i.createdAt).toLocaleDateString("es-AR")}</td>
                 </tr>
               ))}
             </tbody>

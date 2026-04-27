@@ -40,7 +40,7 @@ export default async function MetricasPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Métricas</h1>
-        <p className="text-sm text-gray-400 mt-0.5">{profile.companyName}</p>
+        <p className="text-sm text-gray-500 mt-0.5">{profile.companyName}</p>
       </div>
 
       {/* KPI grid */}
@@ -48,13 +48,13 @@ export default async function MetricasPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-xs text-gray-500 mb-1">Propiedades activas</div>
           <div className="text-3xl font-bold text-gray-900">{metrics.activeProperties}</div>
-          <div className="text-xs text-gray-400 mt-0.5">de {metrics.totalProperties} total</div>
+          <div className="text-xs text-gray-600 mt-0.5">de {metrics.totalProperties} total</div>
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-xs text-gray-500 mb-1">Transacciones en curso</div>
           <div className="text-3xl font-bold text-blue-600">{ongoingTotal}</div>
-          <div className="text-xs text-gray-400 mt-0.5">{metrics.stageMap["FINALIZADO"] ?? 0} finalizadas</div>
+          <div className="text-xs text-gray-600 mt-0.5">{metrics.stageMap["FINALIZADO"] ?? 0} finalizadas</div>
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -62,7 +62,7 @@ export default async function MetricasPage() {
           <div className="text-3xl font-bold text-gray-900">
             {metrics.avgClosingDays !== null ? metrics.avgClosingDays : "—"}
           </div>
-          <div className="text-xs text-gray-400 mt-0.5">
+          <div className="text-xs text-gray-600 mt-0.5">
             {metrics.avgClosingDays !== null
               ? `días · ${metrics.finalizadoCount} muestra${metrics.finalizadoCount !== 1 ? "s" : ""}`
               : "sin finalizadas aún"}
@@ -72,7 +72,7 @@ export default async function MetricasPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-xs text-gray-500 mb-1">Candidatos por propiedad</div>
           <div className="text-3xl font-bold text-gray-900">{metrics.avgCandidatesPerProperty}</div>
-          <div className="text-xs text-gray-400 mt-0.5">promedio</div>
+          <div className="text-xs text-gray-600 mt-0.5">promedio</div>
         </div>
       </div>
 

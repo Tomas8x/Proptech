@@ -36,7 +36,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <div>
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{property.propertyType}</span>
-          {property.neighborhood && <span className="text-xs text-gray-400">{property.neighborhood}, {property.city}</span>}
+          {property.neighborhood && <span className="text-xs text-gray-600">{property.neighborhood}, {property.city}</span>}
         </div>
         <h1 className="text-xl font-semibold text-gray-900">{property.title}</h1>
         <p className="text-gray-500 text-sm">{property.address}</p>
@@ -45,20 +45,20 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <div className="bg-white rounded-xl border border-gray-200 p-5">
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <div className="text-xs text-gray-400">Alquiler mensual</div>
+            <div className="text-xs text-gray-600">Alquiler mensual</div>
             <div className="font-semibold text-gray-900">ARS {Number(property.price).toLocaleString("es-AR")}</div>
           </div>
           <div>
-            <div className="text-xs text-gray-400">Ambientes</div>
+            <div className="text-xs text-gray-600">Ambientes</div>
             <div className="font-semibold text-gray-900">{property.bedrooms}</div>
           </div>
           <div>
-            <div className="text-xs text-gray-400">Superficie</div>
+            <div className="text-xs text-gray-600">Superficie</div>
             <div className="font-semibold text-gray-900">{property.area.toString()} m²</div>
           </div>
         </div>
         {property.description && <p className="text-sm text-gray-600">{property.description}</p>}
-        <p className="text-xs text-gray-400 mt-3">Publicado por {property.inmobiliaria.companyName}</p>
+        <p className="text-xs text-gray-600 mt-3">Publicado por {property.inmobiliaria.companyName}</p>
       </div>
 
       {existing?.compatibilityPct != null && (
@@ -73,7 +73,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             </div>
             <div>
               <div className="font-medium text-gray-900">Compatibilidad con tu perfil</div>
-              <div className="text-xs text-gray-400">Calculado por IA</div>
+              <div className="text-xs text-gray-600">Calculado por IA</div>
             </div>
           </div>
           {existing.compatibilityExplanation && (

@@ -33,5 +33,34 @@ export async function computeScore() {
     },
   });
 
+  const flags: { documentType: "DNI" | "INCOME"; reason: string }[] = [];
+
+  if (result.dimensions.docQuality === "Baja") {
+    flags.push({
+      documentType: "DNI",
+      reason: `Calidad de documento baja detectada por IA. Score Confianza: ${result.score}/100.`,
+    });
+  }
+
+  if (result.dimensions.completeness === "Incompleto" && profile.incomeDocPath) {
+    flags.push({
+      documentType: "INCOME",
+      reason: `Comprobante de ingresos incompleto o ilegible. Score Confianza: ${result.score}/100.`,
+    });
+  }
+
+  if (result.score < 35 && flags.length === 0) {
+    flags.push({
+      documentType: profile.dniImagePath ? "DNI" : "INCOME",
+      reason: `Score Confianza muy bajo (${result.score}/100). Revisión manual requerida.`,
+    });
+  }
+
+  if (flags.length > 0) {
+    await prisma.flaggedDocument.createMany({
+      data: flags.map((f) => ({ ...f, inquilinoId: profile.id })),
+    });
+  }
+
   redirect("/inquilino/pasaporte/score");
 }

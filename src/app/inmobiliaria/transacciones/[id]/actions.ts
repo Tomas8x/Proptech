@@ -92,10 +92,14 @@ export async function uploadTransactionDoc(transactionId: string, formData: Form
 
   if (error) throw new Error(error.message);
 
-  const { data: urlData } = getSupabase().storage.from("documents").getPublicUrl(key);
+  const { data: signedData, error: signError } = await getSupabase().storage
+    .from("documents")
+    .createSignedUrl(key, 60 * 60 * 24 * 365);
+
+  if (signError || !signedData) throw new Error(signError?.message ?? "Failed to sign URL");
 
   await prisma.transactionDocument.create({
-    data: { transactionId, stage: tx.stage, label, url: urlData.publicUrl, uploadedById: user.id },
+    data: { transactionId, stage: tx.stage, label, url: signedData.signedUrl, uploadedById: user.id },
   });
 
   revalidatePath(`/inmobiliaria/transacciones/${transactionId}`);

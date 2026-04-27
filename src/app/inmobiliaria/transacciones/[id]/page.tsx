@@ -1,6 +1,7 @@
 import { verifyRole } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { TRANSACTION_STAGES, STAGE_ORDER } from "@/config/transaction";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -53,15 +54,17 @@ export default async function TransactionDetailPage({ params }: { params: Promis
   const nextStage = stageConfig.next;
   const nextLabel = nextStage ? TRANSACTION_STAGES[nextStage].label : null;
   const currentStageIndex = STAGE_ORDER.indexOf(tx.stage);
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
-  const portalUrl = `${baseUrl}/portal/${tx.portalToken}`;
+  const hdrs = await headers();
+  const host = hdrs.get("host") ?? "";
+  const proto = hdrs.get("x-forwarded-proto") ?? "https";
+  const portalUrl = `${proto}://${host}/portal/${tx.portalToken}`;
 
   const { inquilino, property } = tx.postulacion;
 
   return (
     <div className="max-w-2xl space-y-5">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-500">
         <Link href="/inmobiliaria/transacciones" className="hover:text-gray-600 transition-colors">Transacciones</Link>
         <span>/</span>
         <span className="text-gray-600 truncate">{property.title}</span>
@@ -103,11 +106,11 @@ export default async function TransactionDetailPage({ params }: { params: Promis
                         ? "bg-gray-800 border-gray-800 text-white"
                         : active
                         ? `${cfg.bgColor} ${cfg.color} ${cfg.borderColor} shadow-sm`
-                        : "bg-white border-gray-200 text-gray-300"
+                        : "bg-white border-gray-200 text-gray-500"
                     }`}>
                       {done ? "✓" : i + 1}
                     </div>
-                    <span className={`text-xs font-medium text-center leading-tight ${active ? cfg.color : done ? "text-gray-500" : "text-gray-300"}`}>
+                    <span className={`text-xs font-medium text-center leading-tight ${active ? cfg.color : done ? "text-gray-600" : "text-gray-500"}`}>
                       {cfg.label}
                     </span>
                   </div>
@@ -126,10 +129,10 @@ export default async function TransactionDetailPage({ params }: { params: Promis
                 >
                   Avanzar a {nextLabel} →
                 </SubmitButton>
-                <span className="text-xs text-gray-400">Acción irreversible</span>
+                <span className="text-xs text-gray-600">Acción irreversible</span>
               </form>
             ) : (
-              <p className="text-sm text-gray-400 flex items-center gap-2">
+              <p className="text-sm text-gray-500 flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs">✓</span>
                 Transacción finalizada
               </p>
@@ -140,12 +143,12 @@ export default async function TransactionDetailPage({ params }: { params: Promis
 
       {/* Inquilino */}
       <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Inquilino</h2>
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Inquilino</h2>
         <div className="flex items-center gap-3">
           <Initials name={`${inquilino.firstName} ${inquilino.lastName}`} />
           <div>
             <p className="text-sm font-medium text-gray-900">{inquilino.firstName} {inquilino.lastName}</p>
-            <p className="text-xs text-gray-400">DNI {inquilino.dni} · {GUARANTEE_LABELS[inquilino.guaranteeType] ?? inquilino.guaranteeType}</p>
+            <p className="text-xs text-gray-600">DNI {inquilino.dni} · {GUARANTEE_LABELS[inquilino.guaranteeType] ?? inquilino.guaranteeType}</p>
           </div>
           <div className="ml-auto flex gap-3 text-xs text-gray-500">
             {inquilino.verazScore && (
@@ -161,7 +164,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
       {/* Documents */}
       <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
         <div className="px-5 py-4">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Documentos</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Documentos</h2>
         </div>
 
         {STAGE_ORDER.map((s) => {
@@ -173,7 +176,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
               <div className="flex items-center gap-2">
                 <span className={`text-xs font-semibold ${cfg.color}`}>{cfg.label}</span>
                 {docs.length > 0 && (
-                  <span className="text-xs text-gray-400">({docs.length})</span>
+                  <span className="text-xs text-gray-600">({docs.length})</span>
                 )}
               </div>
 
@@ -210,7 +213,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
                       name="label"
                       required
                       placeholder={cfg.suggestedDocs[0] ?? "Etiqueta del documento"}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                     />
                   </div>
                   <div className="flex-1 min-w-40">
@@ -237,7 +240,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
       {/* Notes */}
       <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
         <div className="px-5 py-4 flex items-center justify-between">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Notas internas</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Notas internas</h2>
           <span className="text-xs text-gray-300">Solo visible para la inmobiliaria</span>
         </div>
 
@@ -271,7 +274,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
               name="body"
               required
               placeholder="Agregar nota interna..."
-              className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <SubmitButton
               pendingText="..."
@@ -285,8 +288,8 @@ export default async function TransactionDetailPage({ params }: { params: Promis
 
       {/* Portal link */}
       <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Portal compartido</h2>
-        <p className="text-xs text-gray-400 mb-3">Enlace de solo lectura para el inquilino y el propietario. No requiere cuenta.</p>
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Portal compartido</h2>
+        <p className="text-xs text-gray-600 mb-3">Enlace de solo lectura para el inquilino y el propietario. No requiere cuenta.</p>
         <div className="flex items-center gap-2">
           <code className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-600 truncate">
             {portalUrl}
@@ -306,7 +309,7 @@ export default async function TransactionDetailPage({ params }: { params: Promis
       {/* History */}
       {tx.history.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Historial</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Historial</h2>
           <div className="relative pl-4">
             <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-100" />
             <div className="space-y-4">
@@ -316,11 +319,11 @@ export default async function TransactionDetailPage({ params }: { params: Promis
                   <div>
                     <p className="text-sm text-gray-700">
                       {h.fromStage
-                        ? <>{TRANSACTION_STAGES[h.fromStage].label} <span className="text-gray-400">→</span> {TRANSACTION_STAGES[h.toStage].label}</>
+                        ? <>{TRANSACTION_STAGES[h.fromStage].label} <span className="text-gray-500">→</span> {TRANSACTION_STAGES[h.toStage].label}</>
                         : <>Iniciada en <strong>{TRANSACTION_STAGES[h.toStage].label}</strong></>
                       }
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">{new Date(h.changedAt).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}</p>
+                    <p className="text-xs text-gray-600 mt-0.5">{new Date(h.changedAt).toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" })}</p>
                   </div>
                 </div>
               ))}

@@ -61,7 +61,7 @@ export default function LoginPage() {
                   >
                     <button
                       type="submit"
-                      className={`w-full text-left px-3 py-2 rounded-lg border text-xs font-medium transition-colors ${color}`}
+                      className={`w-full text-left px-3 py-2 rounded-lg border text-xs font-medium transition-colors cursor-pointer ${color}`}
                     >
                       {label}
                       <span className="ml-1.5 opacity-50">{email}</span>
@@ -73,7 +73,7 @@ export default function LoginPage() {
           )}
         </div>
 
-        <p className="text-xs text-gray-400 text-center mt-6">
+        <p className="text-xs text-gray-600 text-center mt-6">
           Al continuar aceptás los términos de uso de la plataforma.
         </p>
       </div>

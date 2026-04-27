@@ -59,14 +59,14 @@ export default async function PropiedadesPage() {
                       <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-500"}`}>
                         {STATUS_LABELS[p.status] ?? p.status}
                       </span>
-                      <span className="text-xs text-gray-400">{p.propertyType}</span>
+                      <span className="text-xs text-gray-600">{p.propertyType}</span>
                     </div>
                     <div className="font-medium text-gray-900 truncate">{p.title}</div>
                     <div className="text-sm text-gray-500">{p.address}{p.neighborhood ? `, ${p.neighborhood}` : ""}</div>
                   </div>
                   <div className="text-right shrink-0">
                     <div className="font-semibold text-gray-900">{p.currency} {Number(p.price).toLocaleString("es-AR")}</div>
-                    <div className="text-xs text-gray-400">{p.area.toString()} m² · {p.bedrooms} amb.</div>
+                    <div className="text-xs text-gray-600">{p.area.toString()} m² · {p.bedrooms} amb.</div>
                     {totalCandidates > 0 && (
                       <div className="text-xs text-blue-600 mt-1">{totalCandidates} candidato{totalCandidates !== 1 ? "s" : ""}</div>
                     )}

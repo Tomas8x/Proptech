@@ -32,7 +32,7 @@ const POSTULACION_COLORS: Record<string, string> = {
   EN_EVALUACION: "bg-yellow-100 text-yellow-700",
   APROBADA: "bg-green-100 text-green-700",
   RECHAZADA: "bg-red-100 text-red-700",
-  RETIRADA: "bg-gray-100 text-gray-400",
+  RETIRADA: "bg-gray-100 text-gray-500",
 };
 
 type SortField = "compatibilityPct" | "incomeRatio" | "verazScore";
@@ -158,14 +158,14 @@ export default async function PropertyDetailPage({
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{property.propertyType}</span>
-              {property.neighborhood && <span className="text-xs text-gray-400">{property.neighborhood}, {property.city}</span>}
+              {property.neighborhood && <span className="text-xs text-gray-600">{property.neighborhood}, {property.city}</span>}
             </div>
             <h1 className="text-lg font-semibold text-gray-900">{property.title}</h1>
             <p className="text-sm text-gray-500">{property.address}</p>
           </div>
           <div className="text-right shrink-0">
             <div className="font-semibold text-gray-900">{property.currency} {Number(property.price).toLocaleString("es-AR")}</div>
-            <div className="text-xs text-gray-400">{property.area.toString()} m² · {property.bedrooms} amb.</div>
+            <div className="text-xs text-gray-600">{property.area.toString()} m² · {property.bedrooms} amb.</div>
             {property.externalLink && (
               <a href={property.externalLink} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">Ver anuncio →</a>
             )}
@@ -215,7 +215,7 @@ export default async function PropertyDetailPage({
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-medium text-gray-900">
-            Candidatos <span className="text-gray-400 font-normal">({all.length})</span>
+            Candidatos <span className="text-gray-500 font-normal">({all.length})</span>
           </h2>
           <Link href={`/inmobiliaria/propiedades/${id}/candidato-manual`} className="text-sm text-blue-600 hover:underline">+ Agregar candidato externo</Link>
         </div>
@@ -241,7 +241,7 @@ export default async function PropertyDetailPage({
 
         {all.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
-            <p className="text-gray-400 text-sm">No hay candidatos{garantia ? " con esa garantía" : ""} aún.</p>
+            <p className="text-gray-500 text-sm">No hay candidatos{garantia ? " con esa garantía" : ""} aún.</p>
           </div>
         ) : (
           <div className="space-y-3">

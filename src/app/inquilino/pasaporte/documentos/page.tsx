@@ -21,7 +21,7 @@ export default async function DocumentosPage() {
       <form action={uploadDocuments} className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Foto del DNI <span className="text-gray-400">(JPG o PNG)</span>
+            Foto del DNI <span className="text-gray-500">(JPG o PNG)</span>
           </label>
           {profile.dniImagePath && (
             <p className="text-xs text-green-600 mb-2">✓ Ya tenés un DNI subido — podés reemplazarlo</p>
@@ -36,7 +36,7 @@ export default async function DocumentosPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Comprobante de ingresos <span className="text-gray-400">(PDF)</span>
+            Comprobante de ingresos <span className="text-gray-500">(PDF)</span>
           </label>
           {profile.incomeDocPath && (
             <p className="text-xs text-green-600 mb-2">✓ Ya tenés un comprobante subido — podés reemplazarlo</p>
@@ -49,7 +49,7 @@ export default async function DocumentosPage() {
           />
         </div>
 
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-600">
           Tus documentos se almacenan de forma segura y solo son visibles para las inmobiliarias a las que te postuled.
         </p>
 

@@ -42,7 +42,7 @@ export default async function InquilinoHome() {
           {steps.map((step) => (
             <li key={step.label} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium ${step.done ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium ${step.done ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                   {step.done ? "✓" : "·"}
                 </span>
                 <span className="text-sm text-gray-700">{step.label}</span>
@@ -58,12 +58,12 @@ export default async function InquilinoHome() {
       <div className="grid grid-cols-2 gap-4">
         <Link
           href="/inquilino/propiedades"
-          className={`bg-white rounded-xl border p-6 hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-50/20 transition-all duration-200 ${!pasaporteComplete ? "opacity-60 pointer-events-none" : "border-gray-200"}`}
+          className="bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-50/20 transition-all duration-200"
         >
           <div className="text-2xl mb-2">🏠</div>
           <div className="font-medium text-gray-900">Ver propiedades</div>
           <div className="text-sm text-gray-500 mt-1">Propiedades compatibles con tu perfil</div>
-          {!pasaporteComplete && <div className="text-xs text-orange-500 mt-2">Completá tu pasaporte primero</div>}
+          {!pasaporteComplete && <div className="text-xs text-orange-500 mt-2">Completá el pasaporte para postularte</div>}
         </Link>
         <Link href="/inquilino/postulaciones" className="bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5 hover:bg-blue-50/20 transition-all duration-200">
           <div className="text-2xl mb-2">📋</div>

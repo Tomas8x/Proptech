@@ -24,7 +24,7 @@ export default async function InmobiliariaLayout({ children }: { children: React
             )}
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400 hidden sm:block">{profile?.companyName ?? user.email}</span>
+            <span className="text-sm text-gray-500 hidden sm:block">{profile?.companyName ?? user.email}</span>
             <form action={async () => { "use server"; await signOut({ redirectTo: "/login" }); }}>
               <SubmitButton className="text-sm text-gray-500 hover:text-gray-900 transition-colors" pendingText="Saliendo...">Salir</SubmitButton>
             </form>

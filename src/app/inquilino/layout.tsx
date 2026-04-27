@@ -18,7 +18,7 @@ export default async function InquilinoLayout({ children }: { children: React.Re
             <NavLink href="/inquilino/postulaciones">Mis Postulaciones</NavLink>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400 hidden sm:block">{user.email}</span>
+            <span className="text-sm text-gray-500 hidden sm:block">{user.email}</span>
             <form action={async () => { "use server"; await signOut({ redirectTo: "/login" }); }}>
               <SubmitButton className="text-sm text-gray-500 hover:text-gray-900 transition-colors" pendingText="Saliendo...">Salir</SubmitButton>
             </form>

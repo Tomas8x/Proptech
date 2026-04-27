@@ -118,7 +118,7 @@ export default async function NuevaPage() {
         {/* Perfil de candidato ideal */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
           <h2 className="font-medium text-gray-900">Condiciones para candidatos</h2>
-          <p className="text-xs text-gray-400">Estas condiciones se usan para calcular la compatibilidad con los postulantes.</p>
+          <p className="text-xs text-gray-600">Estas condiciones se usan para calcular la compatibilidad con los postulantes.</p>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
