@@ -216,8 +216,4 @@ prisma/
 
 ## ¿Qué haríamos con un día más?
 
-1. **Detección automática de documentos sospechosos**: conectar el confidence scorer al modelo `FlaggedDocument` para que documentos con score <40 o baja calidad de imagen queden automáticamente en la cola del admin. La estructura de DB y la UI ya existen.
-2. **Delta numérico en sugerencias de mejora**: en vez de texto genérico, mostrar "subir el comprobante de ingresos podría llevar tu score de 54 a ~72" calculando el impacto estimado de cada dimensión faltante.
-3. **Chat interno por transacción**: hilo de mensajes entre inquilino e inmobiliaria dentro del tablero, con notificaciones email en cada mensaje nuevo.
-4. **Integración real con Veraz/BCRA**: reemplazar el mock por llamada a la API oficial. El mock está aislado en `lib/veraz/mock.ts` — solo hay que swappear la implementación.
-5. **Mobile-first refinement**: la UI es responsive pero no está optimizada para mobile en los flujos de carga de documentos (drag & drop no funciona bien en touch).
+**NEXT_STEPS.md**
