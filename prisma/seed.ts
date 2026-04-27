@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient, GuaranteeType, PropertyType, PropertyStatus, PostulacionStatus, TransactionStage } from "../src/generated/prisma";
+import { PrismaClient, GuaranteeType, PropertyType, PropertyStatus, PostulacionStatus, TransactionStage, Prisma } from "../src/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
 import * as XLSX from "xlsx";
 import path from "path";
@@ -230,11 +230,12 @@ async function main() {
           title: p.title,
           address: p.address,
           neighborhood: p.neighborhood,
-          price: p.price,
+          price: new Prisma.Decimal(p.price),
           bedrooms: p.bedrooms,
-          area: p.area,
+          area: new Prisma.Decimal(p.area),
           propertyType: p.type,
           status: p.status,
+          acceptedGuarantees: ["PROPIETARIO", "FIANZA"],
         },
       })
     )
