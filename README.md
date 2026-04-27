@@ -12,21 +12,75 @@ Plataforma integral de alquiler para Argentina: pasaporte de inquilino con scori
 | Storage | Supabase Storage (DNIs, comprobantes) |
 | Auth | NextAuth.js v5, Google OAuth |
 | AI | Groq API — llama-3.3-70b-versatile (texto), llama-3.2-11b-vision-preview (imagen DNI) |
+| Email | Resend (notificaciones por cambios de estado) |
 | Deploy | Vercel (app) + Supabase (DB + storage) |
 
 ## Roles
 
-- **Inquilino**: carga perfil + documentos → score Veraz + score Confianza IA → postula a propiedades → sigue estado
-- **Inmobiliaria**: onboarding → crea propiedades → ve candidatos rankeados por compatibilidad IA → gestiona transacciones
+- **Inquilino**: carga perfil + documentos → score Veraz + score Confianza IA → postula a propiedades → sigue estado en tiempo real
+- **Inmobiliaria**: onboarding → crea propiedades con requisitos → ve candidatos rankeados → gestiona transacciones → portal compartido tokenizado
 - **Admin**: aprueba agencias, métricas globales, cola de documentos flaggeados
 
 ## Features de IA
 
-1. **Score Confianza (0–100)**: analiza imagen del DNI (vision model) + PDF de ingresos (pdf-parse), devuelve `{ score, dimensions, improvement_text }`
-2. **Compatibilidad perfil–propiedad**: dado el perfil del inquilino y los requisitos de la propiedad, devuelve `{ compatibility_pct, explanation }` en español
-3. **Resumen comparativo de candidatos**: dado un conjunto de postulantes top, devuelve un párrafo comparativo en español para la inmobiliaria
+Toda la lógica vive en `src/lib/ai/` como capa de servicio. Las rutas API nunca llaman a Groq directamente. Cambiar modelo o proveedor no toca las rutas.
 
-Toda la lógica de IA vive en `src/lib/ai/` como capa de servicio. Las rutas API nunca llaman a Groq directamente.
+### 1. Score Confianza (0–100) — `confidenceScore.ts`
+
+Pipeline de dos pasos:
+1. **Análisis de imagen DNI** via `llama-3.2-11b-vision-preview`: envía la imagen en base64 y pide una descripción de calidad y legibilidad en una oración.
+2. **Análisis del comprobante de ingresos** via `pdf-parse`: extrae hasta 3000 caracteres del PDF y los incluye en el prompt.
+
+El prompt de scoring combina los outputs del paso 1 y 2 con datos del perfil (ingresos, tipo de garantía, tipo de empleo) y pide JSON estructurado:
+
+```json
+{
+  "score": 0-100,
+  "dimensions": {
+    "docQuality": "Alta | Media | Baja",
+    "incomeRatio": "Adecuado | Ajustado | Insuficiente",
+    "guaranteeStrength": "Fuerte | Moderada | Débil",
+    "completeness": "Completo | Parcial | Incompleto"
+  },
+  "improvement_text": "1-2 oraciones en español con consejos accionables"
+}
+```
+
+Se usa `response_format: json_object` y `temperature: 0.2` para máxima consistencia. El modelo de texto (`llama-3.3-70b-versatile`) recibe el análisis de imagen como string, no la imagen directamente — esto permite escalar sin duplicar costos de visión.
+
+### 2. Compatibilidad perfil–propiedad — `compatibility.ts`
+
+Dado el perfil completo del inquilino y los requisitos de la propiedad, el prompt calcula un puntaje de compatibilidad considerando: ratio ingreso/alquiler, tipo de garantía vs garantías aceptadas, mascotas/fumadores/hijos, score Veraz vs mínimo requerido, y score Confianza.
+
+```json
+{
+  "compatibility_pct": 0-100,
+  "explanation": "2-3 oraciones en español con fortalezas y alertas"
+}
+```
+
+`temperature: 0.2` — la explicación cambia ligeramente entre llamadas pero el puntaje es estable. Se muestra tanto al inquilino (antes de postular) como a la inmobiliaria (en la ficha del candidato).
+
+### 3. Resumen comparativo de candidatos — `candidateSummary.ts`
+
+Dado un set de candidatos top (Veraz, Confianza, compatibilidad, garantía, ingresos), genera un párrafo comparativo de 3–5 oraciones en español con recomendación final. Se usa `temperature: 0.4` para que el texto sea más natural y menos repetitivo entre ejecuciones.
+
+No retorna JSON — el brief pide prosa, y forzar JSON para texto libre degradaría la calidad.
+
+## Dos scores — siempre visibles
+
+| Score | Rango | Fuente |
+|---|---|---|
+| Score Veraz | 500–999 | Mock — matchea DNI contra `Assets/Usuarios.xlsx` |
+| Score Confianza | 0–100 | IA — calidad documental, ratio de ingresos, garantía, completeness |
+
+Rangos Veraz: 850–999 Excelente · 700–849 Bueno · 500–699 Regular · <500 Riesgoso
+
+## CI/CD
+
+**Pull requests** → GitHub Actions (`.github/workflows/ci.yml`): lint, typecheck (`tsc --noEmit`), y build completo de Next.js con todas las env vars desde GitHub Secrets. Corre en PRs hacia `main`, `staging` y `develop`.
+
+**Deploy a producción** → Vercel native integration: cada push a `main` dispara un deploy automático. No hay workflow de deploy en YAML porque la integración nativa de Vercel lo maneja directamente desde el repositorio de GitHub.
 
 ## Setup local
 
@@ -51,6 +105,7 @@ Completar en `.env`:
 | Variable | Cómo obtenerla |
 |---|---|
 | `DATABASE_URL` | Supabase → Settings → Database → Connection pooling → Session mode (port 5432) |
+| `DIRECT_URL` | Supabase → Settings → Database → Direct connection (port 5432) |
 | `AUTH_SECRET` | `openssl rand -base64 32` |
 | `AUTH_URL` | `http://localhost:3000` en local, URL de Vercel en prod |
 | `GOOGLE_CLIENT_ID` | Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client |
@@ -59,6 +114,8 @@ Completar en `.env`:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Settings → API → anon public |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API → service_role |
+| `RESEND_API_KEY` | resend.com → API Keys |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` en local, URL de Vercel en prod |
 
 ### 3. Migraciones y seed
 ```bash
@@ -73,10 +130,10 @@ El seed carga: 1 admin, 3 inmobiliarias, 20 inquilinos (desde `Assets/Usuarios.x
 npm run dev
 ```
 
-### Alternativa: Docker Compose (solo postgres local)
+### Alternativa: Docker Compose (postgres local)
 ```bash
 docker compose up db -d
-# Cambiar DATABASE_URL en .env a postgresql://proptech:proptech@localhost:5432/proptech
+# Cambiar DATABASE_URL y DIRECT_URL en .env a postgresql://proptech:proptech@localhost:5432/proptech
 npx prisma migrate deploy
 npx prisma db seed
 npm run dev
@@ -91,8 +148,12 @@ npm run dev
    - Authorized JS origins: `https://tu-app.vercel.app`
    - Authorized redirect URI: `https://tu-app.vercel.app/api/auth/callback/google`
 3. Importar repo en Vercel, configurar todas las env vars (ver tabla arriba)
-4. Deploy → copiar URL → actualizar `AUTH_URL` en Vercel → Redeploy
-5. Correr migraciones y seed desde local apuntando a Supabase
+4. Deploy → copiar URL → actualizar `AUTH_URL` y `NEXT_PUBLIC_APP_URL` en Vercel → Redeploy
+5. Correr migraciones y seed desde local apuntando a la DB de Supabase:
+   ```bash
+   npx prisma migrate deploy
+   npx prisma db seed
+   ```
 
 ### Gotchas conocidos
 
@@ -120,21 +181,27 @@ src/
     admin/              # Panel admin
     login/              # Página de login
     register/role/      # Selección de rol post-signup
+    portal/[token]/     # Portal compartido tokenizado (inmobiliaria ↔ inquilino)
   lib/
     ai/                 # Capa de servicios IA (Groq)
       confidenceScore.ts
       compatibility.ts
-      candidates.ts
+      candidateSummary.ts
     dal.ts              # Data Access Layer (verifySession, verifyRole)
     prisma.ts           # Singleton PrismaClient con PrismaPg adapter
     veraz/mock.ts       # Mock del score Veraz
+    email/              # Notificaciones via Resend
+    storage/            # Upload/download Supabase Storage
   auth.ts               # NextAuth full (con PrismaAdapter) — solo server
   auth.config.ts        # NextAuth liviano (sin Prisma) — para middleware edge
   middleware.ts         # Protección de rutas + redirección por rol
 prisma/
   schema.prisma
-  migrations/
+  migrations/           # 5 migraciones versionadas
   seed.ts
+.github/
+  workflows/
+    ci.yml              # Lint + typecheck + build en PRs
 ```
 
 ## Decisiones de arquitectura
@@ -144,11 +211,13 @@ prisma/
 - **AI como capa de servicio**: toda llamada a Groq pasa por `src/lib/ai/`. Cambiar de modelo o proveedor no toca las rutas.
 - **pdf-parse lazy load**: se carga con `require()` dentro de la función, no al nivel de módulo, para evitar errores de canvas en el build de Vercel.
 - **Score Veraz mock**: matchea DNI contra datos del Excel de Assets. En producción real se reemplazaría por llamada a API de Veraz/BCRA.
+- **Estados de transacción compactados a 4**: el brief define 5 estados granulares; se compactaron en `DOCUMENTACION → CONTRATO → ACTIVO → FINALIZADO` para simplificar la máquina de estados sin perder semántica para el MVP.
+- **Deploy sin workflow YAML**: Vercel detecta pushes a `main` nativamente a través de la integración con GitHub. Agregar un `deploy.yml` sería redundante y podría causar deploys dobles.
 
 ## ¿Qué haríamos con un día más?
 
-1. **Tablero de transacción completo (M3)**: la máquina de estados está definida pero falta la UI del board con transiciones, adjuntos por etapa y portal compartido tokenizado.
-2. **Panel admin**: aprobación de agencias y cola de documentos flaggeados — la estructura de DB está, falta la UI.
-3. **Notificaciones por email**: NextAuth ya tiene los hooks; agregaríamos Resend para notificar en cada cambio de estado de postulación.
-4. **Upload real a Supabase Storage**: el flujo de documentos guarda paths locales; conectar el upload al bucket `documents` de Supabase y pasar URLs firmadas al AI service.
-5. **GitHub Actions CI/CD**: lint + build en PRs, deploy automático a Vercel en main. La estructura está lista, falta el workflow YAML.
+1. **Detección automática de documentos sospechosos**: conectar el confidence scorer al modelo `FlaggedDocument` para que documentos con score <40 o baja calidad de imagen queden automáticamente en la cola del admin. La estructura de DB y la UI ya existen.
+2. **Delta numérico en sugerencias de mejora**: en vez de texto genérico, mostrar "subir el comprobante de ingresos podría llevar tu score de 54 a ~72" calculando el impacto estimado de cada dimensión faltante.
+3. **Chat interno por transacción**: hilo de mensajes entre inquilino e inmobiliaria dentro del tablero, con notificaciones email en cada mensaje nuevo.
+4. **Integración real con Veraz/BCRA**: reemplazar el mock por llamada a la API oficial. El mock está aislado en `lib/veraz/mock.ts` — solo hay que swappear la implementación.
+5. **Mobile-first refinement**: la UI es responsive pero no está optimizada para mobile en los flujos de carga de documentos (drag & drop no funciona bien en touch).
