@@ -3,7 +3,7 @@ import { TRANSACTION_STAGES } from "@/config/transaction";
 import { TransactionStage } from "@/generated/prisma";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM = "PropTech <notificaciones@proptech.ar>";
+const FROM = "PropTech <onboarding@resend.dev>";
 
 type StageEmailParams = {
   toEmail: string;

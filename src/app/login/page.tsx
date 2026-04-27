@@ -1,5 +1,7 @@
 import { signIn } from "@/auth";
 
+export const dynamic = "force-dynamic";
+
 const DEV_ACCOUNTS = [
   { email: "admin@proptech.com", label: "Admin", color: "bg-red-50 text-red-700 hover:bg-red-100 border-red-200" },
   { email: "palermo@proptech.com", label: "Palermo Propiedades", color: "bg-purple-50 text-purple-700 hover:bg-purple-100 border-purple-200" },
