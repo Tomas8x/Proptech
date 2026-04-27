@@ -1,11 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 const BUCKET = "documents";
+
+function getClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function uploadDocument(
   file: File,
@@ -16,7 +18,7 @@ export async function uploadDocument(
   const key = `${type}/${userId}.${ext}`;
   const bytes = await file.arrayBuffer();
 
-  const { error } = await supabase.storage
+  const { error } = await getClient().storage
     .from(BUCKET)
     .upload(key, bytes, { upsert: true, contentType: file.type });
 
@@ -25,6 +27,6 @@ export async function uploadDocument(
 }
 
 export function getPublicUrl(path: string): string {
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  const { data } = getClient().storage.from(BUCKET).getPublicUrl(path);
   return data.publicUrl;
 }

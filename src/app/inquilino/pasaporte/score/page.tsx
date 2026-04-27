@@ -4,7 +4,7 @@ import { verifySession } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { computeScore } from "./actions";
-import { verazRange } from "@/lib/veraz/mock";
+import Link from "next/link";
 import { PasaporteStepper } from "@/components/PasaporteStepper";
 
 const VERAZ_BADGE: Record<string, string> = {
@@ -158,12 +158,12 @@ export default async function ScorePage() {
       </div>
 
       {(veraz || confianza) && (
-        <a
+        <Link
           href="/inquilino/propiedades"
           className="block w-full text-center bg-gray-900 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-gray-700 transition-colors"
         >
           Ver propiedades compatibles →
-        </a>
+        </Link>
       )}
     </div>
   );
