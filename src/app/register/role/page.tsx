@@ -20,7 +20,7 @@ export default async function RolePage() {
           <form action={setRole.bind(null, "INQUILINO")}>
             <button
               type="submit"
-              className="w-full p-6 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors text-left"
+              className="w-full p-6 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 hover:shadow-md active:scale-95 transition-all duration-200 text-left cursor-pointer"
             >
               <div className="text-3xl mb-3">🏠</div>
               <div className="font-medium text-gray-900">Soy inquilino</div>
@@ -32,7 +32,7 @@ export default async function RolePage() {
           <form action={setRole.bind(null, "INMOBILIARIA")}>
             <button
               type="submit"
-              className="w-full p-6 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors text-left"
+              className="w-full p-6 rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 hover:shadow-md active:scale-95 transition-all duration-200 text-left cursor-pointer"
             >
               <div className="text-3xl mb-3">🏢</div>
               <div className="font-medium text-gray-900">Soy inmobiliaria</div>

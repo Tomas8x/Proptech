@@ -52,24 +52,24 @@ export default async function InmobiliariaHome() {
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Propiedades activas</div>
           <div className="text-3xl font-bold text-gray-900">{disponibles}</div>
           <div className="text-xs text-gray-400 mt-0.5">de {totalProperties} total</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Candidatos nuevos</div>
           <div className={`text-3xl font-bold ${pendingCount > 0 ? "text-orange-500" : "text-gray-900"}`}>
             {pendingCount}
           </div>
           <div className="text-xs text-gray-400 mt-0.5">pendientes de revisión</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">En evaluación</div>
           <div className="text-3xl font-bold text-blue-600">{enEvaluacionCount}</div>
           <div className="text-xs text-gray-400 mt-0.5">postulaciones activas</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-sm hover:bg-blue-50/30 transition-all duration-150">
           <div className="text-xs text-gray-500 mb-1">Total postulaciones</div>
           <div className="text-3xl font-bold text-gray-900">{totalPostulaciones}</div>
           <div className="text-xs text-gray-400 mt-0.5">en todas las propiedades</div>
@@ -103,7 +103,7 @@ export default async function InmobiliariaHome() {
                 <Link
                   key={p.id}
                   href={`/inmobiliaria/propiedades/${p.id}`}
-                  className="flex items-center justify-between bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors"
+                  className="flex items-center justify-between bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm transition-all duration-150"
                 >
                   <div className="min-w-0">
                     <div className="font-medium text-gray-900 text-sm truncate">{p.title}</div>
@@ -116,7 +116,7 @@ export default async function InmobiliariaHome() {
                       </span>
                     )}
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${
+                      className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${
                         STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-500"
                       }`}
                     >

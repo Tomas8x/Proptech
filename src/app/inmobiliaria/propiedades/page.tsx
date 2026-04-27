@@ -52,11 +52,11 @@ export default async function PropiedadesPage() {
           {properties.map((p) => {
             const totalCandidates = p._count.postulaciones + p._count.manualCandidates;
             return (
-              <Link key={p.id} href={`/inmobiliaria/propiedades/${p.id}`} className="block bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 transition-colors">
+              <Link key={p.id} href={`/inmobiliaria/propiedades/${p.id}`} className="block bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-500"}`}>
+                      <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${STATUS_COLORS[p.status] ?? "bg-gray-100 text-gray-500"}`}>
                         {STATUS_LABELS[p.status] ?? p.status}
                       </span>
                       <span className="text-xs text-gray-400">{p.propertyType}</span>

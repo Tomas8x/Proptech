@@ -36,7 +36,7 @@ export function PasaporteStepper({ current }: { current: 1 | 2 | 3 }) {
             </div>
             {i < STEPS.length - 1 && (
               <div
-                className={`mx-3 h-px w-10 ${done ? "bg-green-400" : "bg-gray-200"}`}
+                className={`mx-3 h-0.5 w-12 rounded-full transition-colors duration-300 ${done ? "bg-green-400" : "bg-gray-200"}`}
               />
             )}
           </div>
